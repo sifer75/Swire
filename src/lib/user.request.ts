@@ -46,7 +46,6 @@ export const updateUser = async (data: {
 
 export const updateFields = async (data: { fields: string[] }) => {
   const fields = data.fields[0];
-  console.log(fields, "cdcdcd");
   const response = await fetch("http://localhost:3333/user/updateFields", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -61,7 +60,6 @@ export const updateFields = async (data: { fields: string[] }) => {
 
 export const updateTarget = async (data: { target: string[] }) => {
   const target = data.target[0];
-  console.log(target, "cdcdcd");
   const response = await fetch("http://localhost:3333/user/updateTarget", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

@@ -1,21 +1,25 @@
 import { Link } from "react-router-dom";
 
-export interface ButtonColorImgProps {
+export interface ButtonArrowProps {
+  disabled?: boolean;
   background: string;
   onClick?: () => void;
   selection: string;
 }
 
-function ButtonColorImg({
+function ButtonArrow({
   background,
   onClick,
   selection,
-}: ButtonColorImgProps) {
+  disabled,
+}: ButtonArrowProps) {
+  console.log(disabled);
   return (
     <Link to={selection}>
-      <div
+      <button
         className={`flex w-[122px] h-[55px] p-[10px] justify-center items-center gap-[10px] flex-shrink-0 rounded-full ${background}`}
         onClick={onClick}
+        disabled={disabled}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -32,9 +36,9 @@ function ButtonColorImg({
           <path d="M18 8L22 12L18 16" />
           <path d="M2 12H22" />
         </svg>
-      </div>
+      </button>
     </Link>
   );
 }
 
-export default ButtonColorImg;
+export default ButtonArrow;

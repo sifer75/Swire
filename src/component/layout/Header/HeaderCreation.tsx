@@ -1,4 +1,5 @@
 import State from "../../../component/state/State";
+import Image from "../../custom/Image";
 
 interface HeaderCreationProps {
   state: boolean[];
@@ -17,19 +18,15 @@ function HeaderCreation({
 }: HeaderCreationProps) {
   return (
     <div className="w-full pl-[10px]">
-      <div className="w-[301px] h-[33px]">
-        <p className="text-gray-600 font-heebo text-lg font-medium leading-relaxed tracking-wider">
+      <div className="w-full h-[33px] text-colorText font-heebo text-xl font-medium leading-8 tracking-wider">
           {title}
-        </p>
       </div>
       <div className="flex items-end justify-between my-[16px]">
-        <img loading="lazy" src={logo} alt="logo cv"></img>
-        <img
-          loading="lazy"
-          className="w-[141px] h-[123px]"
+        <Image src={logo} alt="logo cv" />
+        <Image className="w-[141px] h-[123px]"
           src={image}
-          alt=""
-        ></img>
+          alt="decoration"/>
+        
       </div>
       <div className="w-full flex justify-between items-center">
         <p className="w-2/3 overflow-hidden overflow-ellipsis whitespace-nowrap text-black font-heebo text-xl font-medium leading-relaxed tracking-wider">

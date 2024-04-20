@@ -12,7 +12,7 @@ export default {
         LightGray: "#BFBFBF",
         shadow: "rgba(0, 0, 0, 0.25)",
         pink: "#FF48A2",
-        purple: "#7C30FF",
+        purple: "#A100FF",
         gradientGreen: "rgba(0, 255, 178, 0.73) 2.5%",
         gradientGreen2: "#2DC37B",
         gradientGreen3: "#61B469",

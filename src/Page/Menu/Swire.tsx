@@ -8,13 +8,13 @@ import Header from "../../component/layout/Header/Header";
 import { useQueue } from "@uidotdev/usehooks";
 import { useRef } from "react";
 import JobDescription from "../../component/job/JobDescription";
+import LoadingWithMenu from "../Loading/LoadingWithMenu";
 
 function useJobs() {
   const queue = useQueue<JobProps>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const ref = useRef(false);
-  console.log(queue, "zzzzz");
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -45,9 +45,9 @@ function Swire() {
   const [isDescriptionOpen, setIsDescriptionOpen] = useState<boolean>(false);
   const { queue, isLoading, isError } = useJobs();
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingWithMenu />;
   if (isError) return <p>Erreur</p>;
-  if (queue.size === 0) return <p>No data available</p>;
+  if (queue.size === 0) return <LoadingWithMenu />
 
   const toggleDescription = () => {
     setIsDescriptionOpen(!isDescriptionOpen);
@@ -86,7 +86,9 @@ function Swire() {
           </>
         )}
       </div>
-      <Menu />
+      <div className="px-5 pb-5">
+        <Menu />
+      </div>
     </div>
   );
 }

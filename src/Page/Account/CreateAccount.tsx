@@ -1,11 +1,10 @@
 import Background from "../../assets/background/background1.svg";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Input } from "../../component/custom/Input";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUser, login } from "../../lib/user.request";
 import SwireTitle from "../../component/layout/Header/SwireTitle";
-import DoubleButton from "../../component/button/DoubleButton";
-import React from "react";
+import ButtonArrow from "../../component/button/ButtonArrow";
 
 interface formDataProps {
   email: string;
@@ -27,8 +26,7 @@ function CreateAccount() {
   };
 
   const mutation = useMutation({
-    mutationFn: (data: { email: string; password: string; }) =>
-      createUser(data),
+    mutationFn: (data: { email: string; password: string }) => createUser(data),
     onError: (error) => {
       console.log(error);
     },
@@ -42,10 +40,9 @@ function CreateAccount() {
       }
     },
   });
-
   return (
     <div
-      className="h-screen w-full flex flex-col justify-end items-center p-[40px] bg-cover"
+      className="h-screen w-screen flex flex-col justify-end items-center p-7 bg-cover bg-center"
       style={{ backgroundImage: `url(${Background})` }}
     >
       <SwireTitle title={"Create an account"} />
@@ -63,17 +60,27 @@ function CreateAccount() {
             />
           </React.Fragment>
         ))}
-        <DoubleButton
-          selection1={"/"}
-          selection2={"/creation/user"}
-          disabled={formData.email === "" || formData.password === ""}
-          onClick={() => {
-            mutation.mutate({
-              email: formData.email,
-              password: formData.password,
-            });
-          }}
-        />
+        <div className="flex w-full justify-between items-center pt-[20px]">
+          <ButtonArrow
+            background={"bg-gradient-to-l from-pink to-purple rotate-180"}
+            selection={"/"}
+          ></ButtonArrow>
+          <ButtonArrow
+            disabled={formData.email === "" || formData.password === ""}
+            background={
+              formData.email === "" || formData.password === ""
+                ? "bg-gradient-to-r from-pink/70 to-purple/70"
+                : "bg-gradient-to-r from-pink to-purple"
+            }
+            onClick={() => {
+              mutation.mutate({
+                email: formData.email,
+                password: formData.password,
+              });
+            }}
+            selection={"/creation/user"}
+          ></ButtonArrow>
+        </div>
       </div>
     </div>
   );

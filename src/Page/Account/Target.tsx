@@ -2,18 +2,16 @@ import { useState } from "react";
 import { updateTarget } from "../../lib/user.request";
 import EnumCard from "../../component/EnumCard";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import HeaderCreation from "../../component/layout/Header/HeaderCreation";
-import FieldsImage from "../../assets/fieldsImage.svg";
-import Logo1 from "../../assets/logo1.svg";
+import FieldsImage from "../../assets/logoCreationAccount/work2.svg";
+import Cible from "../../assets/logoCreationAccount/cible.svg";
 import Background from "../../assets/background/background1.svg";
 import { companyTypeList } from "../../lib/target.utils";
-import DoubleButton from "../../component/button/DoubleButton";
+import ButtonArrow from "../../component/button/ButtonArrow";
 
 function Target() {
   const [target, setTarget] = useState<string[]>([]);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   const handleClick = (targetName: string) => {
     if (target.includes(targetName)) {
@@ -34,27 +32,26 @@ function Target() {
     onSuccess: () => {
       console.log("Création du target réussie");
       queryClient.invalidateQueries({ queryKey: ["Target"] });
-      navigate("/creation/disponibility");
     },
   });
   return (
     <>
       <div
-        className="w-full h-screen flex flex-col p-6 justify-between gap-5"
+        className="w-full h-screen flex flex-col p-6 justify-between gap-5 bg-cover"
         style={{ backgroundImage: `url(${Background})` }}
       >
         <HeaderCreation
           text={"Select Your Target"}
           title={"Step 2/3 Your Research"}
           image={FieldsImage}
-          logo={Logo1}
+          logo={Cible}
           state={[true, true, false, false]}
         />
         <div className="w-full grid grid-cols-1 gap-11 overflow-y-scroll no-scrollbar">
           {companyTypeList.map((companyType, index) => {
             return (
               <EnumCard
-              key={index}
+                key={index}
                 name={companyType.name}
                 checked={target.includes(companyType.value)}
                 onClick={() => handleClick(companyType.value)}
@@ -62,16 +59,26 @@ function Target() {
             );
           })}
         </div>
-        <DoubleButton
-          selection1={"/creation/fields"}
-          selection2={"/creation/disponibility"}
-          disabled={target.length === 0}
-          onClick={() => {
-            mutation.mutate({
-              target: target,
-            });
-          }}
-        />
+        <div className="flex w-full justify-between items-center pt-[20px]">
+          <ButtonArrow
+            background={"bg-gradient-to-l from-pink to-purple rotate-180"}
+            selection={"/creation/fields"}
+          ></ButtonArrow>
+          <ButtonArrow
+            disabled={target.length === 0}
+            background={
+              target.length === 0
+                ? "bg-gradient-to-r from-pink/70 to-purple/70"
+                : "bg-gradient-to-r from-pink to-purple"
+            }
+            onClick={() => {
+              mutation.mutate({
+                target: target,
+              });
+            }}
+            selection={"/creation/disponibility"}
+          ></ButtonArrow>
+        </div>
       </div>
     </>
   );

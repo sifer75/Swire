@@ -1,7 +1,7 @@
-import displayJob from "../../assets/logo/displayJob.svg";
-import time from "../../assets/logo/time.svg";
-import disponibility from "../../assets/logo/disponibility.svg";
-import location from "../../assets/logo/location.svg";
+import displayJob from "../../assets/logoJobCard/displayJob.svg";
+import time from "../../assets/logoJobCard/time.svg";
+import disponibility from "../../assets/logoJobCard/disponibility.svg";
+import location from "../../assets/logoJobCard/location.svg";
 import Preferences from "./Preferences";
 import { dislikeJob, likeJob } from "../../lib/job.request";
 import Details from "./Details";
@@ -91,7 +91,7 @@ function JobCard({
       <div className="flex w-full items-center justify-start pl-[26px] pt-[21px] pr-[15px]">
         <div className="w-[50px] h-[50px] mr-[15px] rounded-[4px] shadow-sm bg-white"></div>
         <div className="text-white text-center font-medium font-sans text-lg">
-          Swire
+          {jobData.name}
         </div>
       </div>
       <div className="w-full">

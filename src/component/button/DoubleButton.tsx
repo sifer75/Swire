@@ -1,4 +1,4 @@
-import ButtonColorImg from "./ButtonColorImg";
+import ButtonColorImg from "./ButtonArrow";
 
 interface DoubleButtonProps {
   disabled: boolean;

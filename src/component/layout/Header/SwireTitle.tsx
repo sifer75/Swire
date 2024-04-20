@@ -6,7 +6,7 @@ interface SwireHeaderProps {
 
 function SwireTitle({ title }: SwireHeaderProps) {
   return (
-    <div className="absolute top-1/3 w-full h-44 flex flex-col items-center justify-between">
+    <div className="absolute top-[25%] w-full h-44 flex flex-col items-center justify-between">
       <img
         loading="lazy"
         src={SwireLogo}

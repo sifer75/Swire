@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { getUser, updateUser } from "../../lib/user.request";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import HeaderCreation from "../../component/layout/Header/HeaderCreation";
-import Cv from "../../assets/cv.jpg";
-import Work from "../../assets/work.jpg";
+import Cv from "../../assets/logoCreationAccount/cv.svg";
+import Background from "../../assets/background/background3.svg";
+import Work from "../../assets/logoCreationAccount/work.svg";
 import Swire from "../../assets/menu/SwireLogo.svg";
 import { Input } from "../../component/custom/Input";
-import DoubleButton from "../../component/button/DoubleButton";
 import { useNavigate } from "react-router-dom";
+import ButtonArrow from "../../component/button/ButtonArrow";
+import Image from "../../component/custom/Image";
 
 interface FormDataProps {
   name: string;
@@ -64,7 +66,10 @@ function User() {
 
   return (
     <>
-      <div className="w-full h-screen flex flex-col p-[25px] justify-between">
+      <div
+        className="w-full h-screen flex flex-col p-6 justify-between bg-cover"
+        style={{ backgroundImage: `url(${Background})` }}
+      >
         <HeaderCreation
           state={[true, true, false]}
           text={"Confirm Your CV Info"}
@@ -73,11 +78,13 @@ function User() {
           logo={Cv}
         />
         <div className="w-full flex-grow flex flex-col justify-evenly">
-          <div className="flex flex-col gap-3">
-            <p className="text-grayfab font-medium">Profile photo</p>
-            <div className="aspect-square w-1/4 shadow-md rounded-lg flex flex-col justify-center items-center">
-              <img loading="lazy" src={Swire} alt="image user"></img>
-            </div>
+          <div className="flex flex-col gap-3 text-grayfab font-medium">
+            Profile photo
+            <Image
+              src={Swire}
+              className="aspect-square w-1/4 shadow-md rounded-lg flex flex-col justify-center items-center"
+              alt="image user"
+            ></Image>
           </div>
           <React.Fragment>
             <h1 className="flex text-center w-11/12 text-xl font-medium text-LightGray outline-none tracking-[0.5px]">
@@ -99,15 +106,13 @@ function User() {
               onChange={(e) => handleChange(e, "age")}
             />
           </React.Fragment>
-          <div className="flex flex-col gap-3">
-            <p className="text-grayfab font-medium">
-              Make my profile visible ?
-            </p>
+          <div className="flex flex-col gap-3 text-grayfab font-medium">
+            Make my profile visible ?
             <div className="flex gap-[10px]">
               {["yes", "no"].map((value, index) => (
                 <div key={index} className="flex flex-row gap-2">
                   <div className="flex flex-row gap-1 justify-center items-center">
-                    <input
+                    <Input
                       type="radio"
                       id={value}
                       name="visibility"
@@ -127,11 +132,18 @@ function User() {
             </div>
           </div>
         </div>
-        <div className="flex justify-between items-center">
-          <DoubleButton
-            selection1={"/createAccount"}
-            selection2={"/creation/fields"}
+        <div className="flex w-full justify-between items-center pt-[20px]">
+          <ButtonArrow
+            background={"bg-gradient-to-l from-pink to-purple rotate-180"}
+            selection={"/creation/fields"}
+          ></ButtonArrow>
+          <ButtonArrow
             disabled={formData.name === "" || formData.age === ""}
+            background={
+              formData.name === "" || formData.age === ""
+                ? "bg-gradient-to-r from-pink/70 to-purple/70"
+                : "bg-gradient-to-r from-pink to-purple"
+            }
             onClick={() => {
               mutation.mutate({
                 name: formData.name,
@@ -139,7 +151,8 @@ function User() {
                 visible: visible,
               });
             }}
-          />
+            selection={"creation/target"}
+          ></ButtonArrow>
         </div>
       </div>
     </>
