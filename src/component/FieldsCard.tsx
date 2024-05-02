@@ -22,7 +22,6 @@ function FieldsCard({
       }`}
     >
       <div className="w-[30px] h-[30px] rounded-sm bg-gray-300">
-        {/* <img loading="lazy" src={logo} alt="logo"></img> */}
         <Image src={logo} alt="logo"/>
       </div>
       <div className="w-[150px] h-[114px] text-left flex flex-col justify-around">

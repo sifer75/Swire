@@ -106,7 +106,7 @@ export const updateLocation = async (data: { location: string[] }) => {
 };
 
 export const login = async (data: { email: string; password: string }) => {
-  const response = await fetch("http://localhost:3333/login", {
+  const response = await fetch("http://localhost:3333/user/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -119,7 +119,7 @@ export const login = async (data: { email: string; password: string }) => {
 };
 
 export const logout = async () => {
-  const response = await fetch("http://localhost:3333/logout", {
+  const response = await fetch("http://localhost:3333/user/logout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: null,

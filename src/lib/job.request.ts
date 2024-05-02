@@ -1,7 +1,7 @@
 import { JobProps } from "./job.utils";
 
 export const getJobs = async () => {
-  const response = await fetch("http://localhost:3333/job/all", {
+  const response = await fetch("http://localhost:3333/user/job/all", {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
