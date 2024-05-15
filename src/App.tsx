@@ -13,6 +13,9 @@ import Account from "./Page/Menu/Account";
 import ForgetEmail from "./Page/Forget/Email";
 import ForgetPassord from "./Page/Forget/Password";
 import CreateAccount from "./Page/Account/CreateAccount";
+import Rhythm from "./Page/Account/Rhythm";
+import Duration from "./Page/Account/Duration";
+import Experience from "./Page/Account/Experience";
 
 function App() {
   return (
@@ -24,6 +27,9 @@ function App() {
       <Route path="/creation/fields" element={<Fields />} />
       <Route path="/creation/target" element={<Target />} />
       <Route path="/creation/disponibility" element={<Disponibility />} />
+      <Route path="/creation/rhythm" element={<Rhythm />} />
+      <Route path="/creation/duration" element={<Duration />} />
+      <Route path="/creation/experience" element={<Experience />} />
       <Route path="/creation/location" element={<Location />} />
       <Route path="/forget/email" element={<ForgetEmail />} />
       <Route path="/forget/password" element={<ForgetPassord />} />

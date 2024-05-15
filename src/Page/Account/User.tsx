@@ -7,9 +7,9 @@ import Background from "../../assets/background/background3.svg";
 import Work from "../../assets/logoCreationAccount/work.svg";
 import Swire from "../../assets/menu/SwireLogo.svg";
 import { Input } from "../../component/custom/Input";
-import { useNavigate } from "react-router-dom";
 import ButtonArrow from "../../component/button/ButtonArrow";
 import Image from "../../component/custom/Image";
+import LoadingWithoutMenu from "../Loading/LoadingWithoutMenu";
 
 interface FormDataProps {
   name: string;
@@ -40,7 +40,6 @@ function User() {
     queryKey: ["user"],
     queryFn: getUser,
   });
-  const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: (data: { name: string; age: string; visible: boolean }) =>
       updateUser(data),
@@ -50,7 +49,6 @@ function User() {
     onSuccess: async () => {
       try {
         queryClient.invalidateQueries({ queryKey: ["user"] });
-        navigate("/creation/fields");
       } catch (e) {
         console.error("Erreur lors de la connection de l'utilisateur");
       }
@@ -58,7 +56,7 @@ function User() {
   });
 
   if (isPending) {
-    return <p>Loading</p>;
+    return <LoadingWithoutMenu/>;
   }
   if (isError) {
     return <p>Error</p>;
@@ -151,7 +149,7 @@ function User() {
                 visible: visible,
               });
             }}
-            selection={"creation/target"}
+            selection={"/creation/fields"}
           ></ButtonArrow>
         </div>
       </div>

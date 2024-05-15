@@ -45,12 +45,11 @@ export const updateUser = async (data: {
 };
 
 export const updateFields = async (data: { fields: string[] }) => {
-  const fields = data.fields[0];
   const response = await fetch("http://localhost:3333/user/updateFields", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: JSON.stringify({ fields }),
+    body: JSON.stringify(data),
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la création du fields");
@@ -59,12 +58,11 @@ export const updateFields = async (data: { fields: string[] }) => {
 };
 
 export const updateTarget = async (data: { target: string[] }) => {
-  const target = data.target[0];
   const response = await fetch("http://localhost:3333/user/updateTarget", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: JSON.stringify({ target }),
+    body: JSON.stringify(data),
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la création du target");
@@ -75,14 +73,13 @@ export const updateTarget = async (data: { target: string[] }) => {
 export const updateDisponibility = async (data: {
   disponibility: string[];
 }) => {
-  const disponibility = data.disponibility[0];
   const response = await fetch(
     "http://localhost:3333/user/updateDisponibility",
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ disponibility }),
+      body: JSON.stringify(data),
     }
   );
   if (!response.ok) {
@@ -91,13 +88,51 @@ export const updateDisponibility = async (data: {
   return response.json();
 };
 
+export const updateRhythm = async (data: { workRhythm: string[] }) => {
+  const response = await fetch("http://localhost:3333/user/updateRhythm", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error("Erreur lors de la création du rhythm");
+  }
+  return response.json();
+};
+
+export const updateDuration = async (data: { duration: string[] }) => {
+  const response = await fetch("http://localhost:3333/user/updateDuration", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error("Erreur lors de la création de la duration");
+  }
+  return response.json();
+};
+
+export const updateExperience = async (data: { experience: string[] }) => {
+  const response = await fetch("http://localhost:3333/user/updateExperience", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error("Erreur lors de la création de l'experience");
+  }
+  return response.json();
+};
+
 export const updateLocation = async (data: { location: string[] }) => {
-  const location = data.location[0];
   const response = await fetch("http://localhost:3333/user/updateLocation", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: JSON.stringify({ location }),
+    body: JSON.stringify(data),
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la création de la localisation");
@@ -155,15 +190,3 @@ export const getUser = async (): Promise<User> => {
     throw new Error("Erreur lors de la récupération de l'utilisateur");
   return response.json();
 };
-
-// export const deleteUser = async (id: string) => {
-//   const response = await fetch("http://localhost:3333/user", {
-//     method: "DELETE",
-//     headers: { "Content-Type": "application/json" },
-//     body: null,
-//   });
-//   if (!response.ok) {
-//     throw new Error("Erreur lors de la supression du user");
-//   }
-//   return response.json();
-// };

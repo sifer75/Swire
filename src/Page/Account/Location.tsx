@@ -25,19 +25,17 @@ function Location() {
     true,
   ]);
 
-  const handleClick = (locationName: string, index: number) => {
-    if (location.includes(locationName)) {
-      setLocation((prevLocation) =>
-        prevLocation.filter((item) => item !== locationName)
-      );
-    } else {
-      setLocation((prevLocation) => [...prevLocation, locationName]);
-    }
+  const handleLocation = (value: string, index: number) => {
+    setLocation((prevLocation) =>
+      prevLocation.includes(value)
+        ? prevLocation.filter((item) => item !== value)
+        : [...prevLocation, value]
+    );
+
     const newBackground = [...background];
     newBackground[index] = !newBackground[index];
     setBackground(newBackground);
   };
-  console.log(location);
 
   const mutation = useMutation({
     mutationFn: (data: { location: string[] }) => updateLocation(data),
@@ -60,7 +58,7 @@ function Location() {
           title={"Step 2/3 Your Research"}
           image={FieldsImage}
           logo={Cible}
-          state={[true, true, true, true]}
+          state={[true, true, true, true, true, true, true]}
         />
         <div className="font-sans text-Hifi-Color-Dark-Grey text-base font-medium leading-normal tracking-tight w-[243px]">
           Select at least one location in which you would like to work
@@ -87,7 +85,7 @@ function Location() {
                 key={index}
                 text={city}
                 background={!background[index]}
-                onClick={() => handleClick(city, index)}
+                onClick={() => handleLocation(city, index)}
               />
             ))}
           </div>

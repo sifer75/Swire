@@ -13,16 +13,16 @@ function Target() {
   const [target, setTarget] = useState<string[]>([]);
   const queryClient = useQueryClient();
 
-  const handleClick = (targetName: string) => {
-    if (target.includes(targetName)) {
-      setTarget((prevTarget) =>
-        prevTarget.filter((item) => item !== targetName)
+  const handleTarget = (value: string) => {
+    if (target.includes(value)) {
+      setTarget((prevSelected) =>
+        prevSelected.filter((item) => item !== value)
       );
     } else {
-      setTarget((prevTarget) => [...prevTarget, targetName]);
+      setTarget((prevSelected) => [...prevSelected, value]);
     }
   };
-  console.log(target);
+  console.log(target, 'coucou');
 
   const mutation = useMutation({
     mutationFn: (data: { target: string[] }) => updateTarget(data),
@@ -31,7 +31,7 @@ function Target() {
     },
     onSuccess: () => {
       console.log("Création du target réussie");
-      queryClient.invalidateQueries({ queryKey: ["Target"] });
+      queryClient.invalidateQueries({ queryKey: ["target"] });
     },
   });
   return (
@@ -45,7 +45,7 @@ function Target() {
           title={"Step 2/3 Your Research"}
           image={FieldsImage}
           logo={Cible}
-          state={[true, true, false, false]}
+          state={[true, true, false, false, false, false, false]}
         />
         <div className="w-full grid grid-cols-1 gap-11 overflow-y-scroll no-scrollbar">
           {companyTypeList.map((companyType, index) => {
@@ -54,7 +54,7 @@ function Target() {
                 key={index}
                 name={companyType.name}
                 checked={target.includes(companyType.value)}
-                onClick={() => handleClick(companyType.value)}
+                onClick={() => handleTarget(companyType.value)}
               />
             );
           })}

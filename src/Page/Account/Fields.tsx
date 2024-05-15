@@ -12,14 +12,12 @@ import ButtonArrow from "../../component/button/ButtonArrow";
 function Fields() {
   const [fields, setFields] = useState<string[]>([]);
   const queryClient = useQueryClient();
-
-  const handleClick = (fieldName: string) => {
-    if (fields.includes(fieldName)) {
-      setFields((prevFields) =>
-        prevFields.filter((item) => item !== fieldName)
-      );
+  console.log(fields);
+  const handleFields = (value: string) => {
+    if (fields.includes(value)) {
+      setFields((prevFields) => prevFields.filter((item) => item !== value));
     } else {
-      setFields((prevFields) => [...prevFields, fieldName]);
+      setFields((prevFields) => [...prevFields, value]);
     }
   };
 
@@ -30,7 +28,7 @@ function Fields() {
     },
     onSuccess: () => {
       console.log("Création du fields réussie");
-      queryClient.invalidateQueries({ queryKey: ["Fields"] });
+      queryClient.invalidateQueries({ queryKey: ["fields"] });
     },
   });
 
@@ -45,7 +43,7 @@ function Fields() {
           title={"Step 2/3 Your Research"}
           image={FieldsImage}
           logo={Cible}
-          state={[true, false, false, false]}
+          state={[true, false, false, false, false, false, false]}
         />
         <div className="w-full grid grid-cols-2 gap-6 overflow-y-scroll no-scrollbar">
           {industryList.map((industry, index) => {
@@ -56,7 +54,7 @@ function Fields() {
                 logo={industry.logo}
                 description={industry.description}
                 selected={fields.includes(industry.value)}
-                onClick={() => handleClick(industry.value)}
+                onClick={() => handleFields(industry.value)}
               />
             );
           })}

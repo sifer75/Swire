@@ -1,7 +1,7 @@
 interface ButtonVar2Props {
-  logo: string;
+  logo?: string;
   onClick?: () => void;
-  disabled:boolean
+  disabled?:boolean
 }
 
 function ButtonVar2({ logo, onClick, disabled=false }: ButtonVar2Props) {

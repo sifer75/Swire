@@ -1,36 +1,37 @@
 import { useState } from "react";
-import { updateDisponibility } from "../../lib/user.request";
+import { updateExperience } from "../../lib/user.request";
 import EnumCard from "../../component/EnumCard";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import HeaderCreation from "../../component/layout/Header/HeaderCreation";
-import DisponibilityImage from "../../assets/logoCreationAccount/work2.svg";
+import FieldsImage from "../../assets/logoCreationAccount/work2.svg";
 import Cible from "../../assets/logoCreationAccount/cible.svg";
 import Background from "../../assets/background/background1.svg";
-import { contractTypeList } from "../../lib/contract.utils";
+import { experienceTypeList } from "../../lib/experience.utils";
 import ButtonArrow from "../../component/button/ButtonArrow";
 
-function Disponibility() {
-  const [disponibility, setDisponibility] = useState<string[]>([]);
+function Experience() {
+  const [experience, setExperience] = useState<string[]>([]);
   const queryClient = useQueryClient();
-  console.log(disponibility, "coucou");
-  const handleDisponibility = (value: string) => {
-    if (disponibility.includes(value)) {
-      setDisponibility((prevDisponibility) =>
-        prevDisponibility.filter((item) => item !== value)
+
+  const handleExperience = (value: string) => {
+    if (experience.includes(value)) {
+      setExperience((prevExperience) =>
+        prevExperience.filter((item) => item !== value)
       );
     } else {
-      setDisponibility((prevDisponibility) => [...prevDisponibility, value]);
+      setExperience((prevExperience) => [...prevExperience, value]);
     }
   };
+  console.log(experience);
+
   const mutation = useMutation({
-    mutationFn: (data: { disponibility: string[] }) =>
-      updateDisponibility(data),
+    mutationFn: (data: { experience: string[] }) => updateExperience(data),
     onError: (error) => {
-      console.log("Création du Disponibility échoué", error);
+      console.log("Création du experience échoué", error);
     },
     onSuccess: () => {
-      console.log("Création du Disponibility réussie");
-      queryClient.invalidateQueries({ queryKey: ["disponibility"] });
+      console.log("Création du experience réussie");
+      queryClient.invalidateQueries({ queryKey: ["experience"] });
     },
   });
   return (
@@ -40,20 +41,20 @@ function Disponibility() {
         style={{ backgroundImage: `url(${Background})` }}
       >
         <HeaderCreation
-          text={"Select Your Disponibility"}
+          text={"Select Job experience"}
           title={"Step 2/3 Your Research"}
-          image={DisponibilityImage}
+          image={FieldsImage}
           logo={Cible}
-          state={[true, true, true, false, false, false, false]}
+          state={[true, true, true, true, true, true, false]}
         />
         <div className="w-full grid grid-cols-1 gap-11 overflow-y-scroll no-scrollbar">
-          {contractTypeList.map((option) => {
+          {experienceTypeList.map((option) => {
             return (
               <EnumCard
                 key={option.value}
                 name={option.name}
-                checked={disponibility.includes(option.value)}
-                onClick={() => handleDisponibility(option.value)}
+                checked={experience.includes(option.value)}
+                onClick={() => handleExperience(option.value)}
               />
             );
           })}
@@ -61,21 +62,21 @@ function Disponibility() {
         <div className="flex w-full justify-between items-center pt-[20px]">
           <ButtonArrow
             background={"bg-gradient-to-l from-pink to-purple rotate-180"}
-            selection={"/creation/target"}
+            selection={"/creation/duration"}
           ></ButtonArrow>
           <ButtonArrow
-            disabled={disponibility.length === 0}
+            disabled={experience.length === 0}
             background={
-              disponibility.length === 0
+              experience.length === 0
                 ? "bg-gradient-to-r from-pink/70 to-purple/70"
                 : "bg-gradient-to-r from-pink to-purple"
             }
             onClick={() => {
               mutation.mutate({
-                disponibility: disponibility,
+                experience: experience,
               });
             }}
-            selection={"/creation/rhythm"}
+            selection={"/creation/location"}
           ></ButtonArrow>
         </div>
       </div>
@@ -83,4 +84,4 @@ function Disponibility() {
   );
 }
 
-export default Disponibility;
+export default Experience;

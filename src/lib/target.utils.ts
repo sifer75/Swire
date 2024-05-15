@@ -6,15 +6,15 @@ export type CompanyType = {
 export const companyTypeList = [
   {
     name: "Large Company",
-    value: "large company",
+    value: "large_company",
   },
   {
     name: "Start-up",
-    value: "start-up",
+    value: "start_up",
   },
   {
     name: "Public Institution",
-    value: "public institution",
+    value: "public_institution",
   },
   {
     name: "SME",

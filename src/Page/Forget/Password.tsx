@@ -1,7 +1,7 @@
 import ButtonVar2 from "../../component/button/ButtonVar2";
 import Swire from "../../assets/menu/SwireLogo.svg";
 import Background from "../../assets/background/background1.svg";
-import Arrow from "../../assets/arrow/arrow.svg";
+import Arrow from "../../assets/arrow.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -69,12 +69,12 @@ function ForgetPassword() {
             ></input>
           </div>
           <div className="w-full flex justify-end">
-            {/* <ButtonVar2
+            <ButtonVar2
               logo={Arrow}
               onClick={() => {
                 mutation.mutate({ password1, password2, email });
               }}
-            ></ButtonVar2> */}
+            ></ButtonVar2>
           </div>
         </div>
       </div>

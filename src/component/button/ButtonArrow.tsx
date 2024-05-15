@@ -13,7 +13,6 @@ function ButtonArrow({
   selection,
   disabled,
 }: ButtonArrowProps) {
-  console.log(disabled);
   return (
     <Link to={selection}>
       <button

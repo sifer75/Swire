@@ -9,6 +9,7 @@ import disponibility from "../../assets/logoJobCard/disponibility.svg";
 import location from "../../assets/logoJobCard/location.svg";
 import Details from "./Details";
 import { useRef, RefObject } from "react";
+import displayJob from "../../assets/logoJobCard/displayJob.svg";
 
 function useScroll(): { x: number; y: number; ref: RefObject<HTMLDivElement> } {
   const ref = useRef<HTMLDivElement>(null);
@@ -76,17 +77,23 @@ function JobDescription({
       <div
         className={`flex items-end w-full  flex-shrink-0 bg-cover fixed h-[200px]`}
         style={{
-          backgroundImage: `url(${jobData.image})`,
+          backgroundImage: `url(http://localhost:3333/uploads/${jobData.image_font})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           transform: `translate(0,-${y > 100 ? 100 : y}px)`,
         }}
-        onClick={() => togglePage()}
         {...props}
       >
-        <div className="absolute top-5 left-5 rounded-full w-12 h-12 bg-white"></div>
+        <Image
+          src={displayJob}
+          className="rotate-180 absolute top-5 left-5 rounded-full w-12 h-12"
+          onClick={() => togglePage()}
+        ></Image>
         <div className="flex w-full items-center px-10 h-[100px] gap-2.5">
-          <div className="w-[50px] h-[50px] rounded-md shadow-sm bg-white"></div>
+          <Image
+            src={`http://localhost:3333/uploads/${jobData.logo}`}
+            className="w-[50px] h-[50px] rounded-md shadow-sm bg-white border-2 border-black"
+          ></Image>
           <div className="text-white text-center font-medium font-sans text-lg">
             {jobData.name}
           </div>

@@ -24,7 +24,7 @@ function JobCard({
   layerOrder: number;
 }) {
   const [scope, animate] = useAnimate();
-  const percentageString = jobData.percentage;
+  const percentageString = jobData.percentage || undefined;
   const percentageFloat = parseFloat(percentageString);
   const percentageInt = Math.round(percentageFloat);
 
@@ -49,7 +49,7 @@ function JobCard({
     remove();
   };
 
-  async function handleDragEnd(event: any, info: any) {
+  async function handleDragEnd(info: any) {
     const offset = info.offset.x;
     if (offset > -300 && offset < 300) {
       await animate(scope.current, { x: 0, opacity: 1 }, { duration: 0.5 });
@@ -82,14 +82,17 @@ function JobCard({
         left: 0,
         zIndex: layerOrder,
         transform: "translateX(0px)",
-        backgroundImage: `url(${jobData.image})`,
+        backgroundImage: `url(http://localhost:3333/uploads/${jobData.image_font})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
       {...props}
     >
       <div className="flex w-full items-center justify-start pl-[26px] pt-[21px] pr-[15px]">
-        <div className="w-[50px] h-[50px] mr-[15px] rounded-[4px] shadow-sm bg-white"></div>
+        <Image
+          src={`http://localhost:3333/uploads/${jobData.logo}`}
+          className="w-[50px] h-[50px] mr-[15px] rounded-[4px] shadow-sm bg-white border-2 border-black"
+        ></Image>
         <div className="text-white text-center font-medium font-sans text-lg">
           {jobData.name}
         </div>

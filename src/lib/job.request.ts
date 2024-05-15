@@ -10,8 +10,6 @@ export const getJobs = async () => {
   return response.json();
 };
 
-
-
 export const createJob = async (data: JobProps) => {
   const response = await fetch("http://localhost:3333/job/create", {
     method: "POST",

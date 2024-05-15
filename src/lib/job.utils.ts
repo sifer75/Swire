@@ -1,14 +1,17 @@
 export interface JobProps {
-  id: number;
+  id?: number;
   name: string;
-  image: string;
-  percentage: string;
-  disponibility: string;
-  time: string;
+  imageFont: File | null;
+  percentage?: string | undefined;
+  disponibility: string[];
+  time: number;
   location: string;
   language: string;
-  target: string;
-  elem: number;
+  target: string[];
+  fields: string[];
+  elem?: number;
+  salary?: number | null;
+  workRhythm: string[];
 }
 
 export interface ButtonProps {

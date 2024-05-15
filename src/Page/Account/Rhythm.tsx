@@ -1,36 +1,35 @@
 import { useState } from "react";
-import { updateDisponibility } from "../../lib/user.request";
+import { updateRhythm } from "../../lib/user.request";
 import EnumCard from "../../component/EnumCard";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import HeaderCreation from "../../component/layout/Header/HeaderCreation";
-import DisponibilityImage from "../../assets/logoCreationAccount/work2.svg";
+import FieldsImage from "../../assets/logoCreationAccount/work2.svg";
 import Cible from "../../assets/logoCreationAccount/cible.svg";
 import Background from "../../assets/background/background1.svg";
-import { contractTypeList } from "../../lib/contract.utils";
+import { rhythmTypeList } from "../../lib/rhythm.utils";
 import ButtonArrow from "../../component/button/ButtonArrow";
 
-function Disponibility() {
-  const [disponibility, setDisponibility] = useState<string[]>([]);
+function Rhythm() {
+  const [rhythm, setRhythm] = useState<string[]>([]);
   const queryClient = useQueryClient();
-  console.log(disponibility, "coucou");
-  const handleDisponibility = (value: string) => {
-    if (disponibility.includes(value)) {
-      setDisponibility((prevDisponibility) =>
-        prevDisponibility.filter((item) => item !== value)
-      );
+
+  const handleWorkRhythm = (value: string) => {
+    if (rhythm.includes(value)) {
+      setRhythm((prevRhythm) => prevRhythm.filter((item) => item !== value));
     } else {
-      setDisponibility((prevDisponibility) => [...prevDisponibility, value]);
+      setRhythm((prevRhythm) => [...prevRhythm, value]);
     }
   };
+  console.log(rhythm);
+
   const mutation = useMutation({
-    mutationFn: (data: { disponibility: string[] }) =>
-      updateDisponibility(data),
+    mutationFn: (data: { workRhythm: string[] }) => updateRhythm(data),
     onError: (error) => {
-      console.log("Création du Disponibility échoué", error);
+      console.log("Création du rhythm échoué", error);
     },
     onSuccess: () => {
-      console.log("Création du Disponibility réussie");
-      queryClient.invalidateQueries({ queryKey: ["disponibility"] });
+      console.log("Création du rhythm réussie");
+      queryClient.invalidateQueries({ queryKey: ["work_rhythm"] });
     },
   });
   return (
@@ -40,20 +39,20 @@ function Disponibility() {
         style={{ backgroundImage: `url(${Background})` }}
       >
         <HeaderCreation
-          text={"Select Your Disponibility"}
+          text={"Select Job Rhythm"}
           title={"Step 2/3 Your Research"}
-          image={DisponibilityImage}
+          image={FieldsImage}
           logo={Cible}
-          state={[true, true, true, false, false, false, false]}
+          state={[true, true, true, true, false, false, false]}
         />
         <div className="w-full grid grid-cols-1 gap-11 overflow-y-scroll no-scrollbar">
-          {contractTypeList.map((option) => {
+          {rhythmTypeList.map((option) => {
             return (
               <EnumCard
                 key={option.value}
                 name={option.name}
-                checked={disponibility.includes(option.value)}
-                onClick={() => handleDisponibility(option.value)}
+                checked={rhythm.includes(option.value)}
+                onClick={() => handleWorkRhythm(option.value)}
               />
             );
           })}
@@ -61,21 +60,21 @@ function Disponibility() {
         <div className="flex w-full justify-between items-center pt-[20px]">
           <ButtonArrow
             background={"bg-gradient-to-l from-pink to-purple rotate-180"}
-            selection={"/creation/target"}
+            selection={"/creation/disponibility"}
           ></ButtonArrow>
           <ButtonArrow
-            disabled={disponibility.length === 0}
+            disabled={rhythm.length === 0}
             background={
-              disponibility.length === 0
+              rhythm.length === 0
                 ? "bg-gradient-to-r from-pink/70 to-purple/70"
                 : "bg-gradient-to-r from-pink to-purple"
             }
             onClick={() => {
               mutation.mutate({
-                disponibility: disponibility,
+                workRhythm: rhythm,
               });
             }}
-            selection={"/creation/rhythm"}
+            selection={"/creation/duration"}
           ></ButtonArrow>
         </div>
       </div>
@@ -83,4 +82,4 @@ function Disponibility() {
   );
 }
 
-export default Disponibility;
+export default Rhythm;
