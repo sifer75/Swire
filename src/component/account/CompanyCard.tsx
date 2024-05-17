@@ -11,7 +11,7 @@ function CompanyCard() {
   return (
     <div>
       <div
-        className="w-full h-[117px] flex items-center rounded-[6px] border-indigo-400 pl-[30px] mb-[20px]"
+        className="w-full h-[117px] flex items-center rounded-[6px] border-indigo-400 pl-[30px] mb-[20px] bg-cover"
         style={{ backgroundImage: `url(${Background})` }}
       >
         <div className="w-[77px] h-[77px] pr-[20px] flex items-center justify-center">

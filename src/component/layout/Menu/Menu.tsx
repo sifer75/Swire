@@ -10,7 +10,7 @@ function Menu() {
     { name: "/account", src: ManLogo, alt: "personnage" },
   ];
   return (
-    <div className="w-full h-[83px] flex justify-around items-center">
+    <div className="w-full min-h-[83px] flex justify-around items-center">
       {selection.map((item, index: number) => (
         <Link to={item.name} key={index}>
           <button>

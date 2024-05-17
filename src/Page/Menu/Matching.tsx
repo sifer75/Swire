@@ -10,7 +10,7 @@ function Matching() {
       style={{ backgroundImage: `url(${Background})` }}
     >
       <Header />
-      <div className="flex-grow">
+      <div className="flex-grow w-full">
         <div className="w-full h-[81px] flex flex-col justify-between mb-4">
           <p className="text-black font-heebo font-bold text-2xl leading-9 h-[36px] ">
             Matches

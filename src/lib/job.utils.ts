@@ -1,26 +1,27 @@
 export interface JobProps {
-  id?: number;
+  id: number;
   name: string;
-  imageFont: File | null;
-  percentage?: string | undefined;
-  disponibility: string[];
+  salary: number;
+  percentage: string;
   time: number;
   location: string;
   language: string;
+  work_rhythm: string[];
+  duration: string[];
   target: string[];
+  disponibility: string[];
   fields: string[];
-  elem?: number;
-  salary?: number | null;
-  workRhythm: string[];
+  experience: string[];
+  image_font: string;
+  job_description: string;
+  mission: string;
+  description: string;
+  value: string;
+  competence: string;
 }
 
 export interface ButtonProps {
   onClick: () => void;
   src: string;
   alt: string;
-}
-
-export interface PreferencesProps {
-  data: string;
-  logo: string;
 }

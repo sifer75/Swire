@@ -15,7 +15,6 @@ function useJobs() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const ref = useRef(false);
-  console.log(queue);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -23,7 +22,7 @@ function useJobs() {
     };
     if (ref.current) {
       fetchJobs()
-      .then((data) => {
+        .then((data) => {
           setIsLoading(true);
           for (let i = 0; i < data.length; i++) {
             queue.add(data[i]);
@@ -32,6 +31,7 @@ function useJobs() {
         })
         .catch(() => {
           setIsError(true);
+          setIsLoading(false);
         });
     }
     return () => {
@@ -47,13 +47,12 @@ function Swire() {
   const { queue, isLoading, isError } = useJobs();
 
   if (isLoading) return <LoadingWithMenu />;
-  if (isError) return <p>caca</p>;
+  if (isError) return <LoadingWithMenu />;
   if (queue.size === 0) return <LoadingWithMenu />;
 
   const toggleDescription = () => {
     setIsDescriptionOpen(!isDescriptionOpen);
   };
-
   return (
     <div className="h-screen w-screen flex flex-col">
       <div

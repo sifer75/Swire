@@ -1,15 +1,15 @@
-import { JobProps, PreferencesProps } from "../../lib/job.utils";
+import { JobProps } from "../../lib/job.utils";
 import Image from "../custom/Image";
 import { useState, useEffect } from "react";
 import { dislikeJob, likeJob } from "../../lib/job.request";
 import like from "../../assets/like.svg";
 import dislike from "../../assets/dislike.svg";
 import time from "../../assets/logoJobCard/time.svg";
-import disponibility from "../../assets/logoJobCard/disponibility.svg";
 import location from "../../assets/logoJobCard/location.svg";
 import Details from "./Details";
 import { useRef, RefObject } from "react";
 import displayJob from "../../assets/logoJobCard/displayJob.svg";
+import LoadingWithMenu from "../../Page/Loading/LoadingWithMenu";
 
 function useScroll(): { x: number; y: number; ref: RefObject<HTMLDivElement> } {
   const ref = useRef<HTMLDivElement>(null);
@@ -49,13 +49,15 @@ function JobDescription({
   const { y, ref } = useScroll();
 
   if (!jobData) {
-    return <p>pas de job</p>;
+    return <LoadingWithMenu />;
   }
 
-  const preferencesData = [
-    { data: jobData.disponibility, logo: disponibility },
-    { data: jobData.target, logo: time },
-    { data: jobData.location, logo: location },
+  const detailsData: { data: string; logo: string }[] = [
+    {
+      data: jobData.salary ? jobData.salary.toString() + " €" : "",
+      logo: time,
+    },
+    { data: jobData.fields.join(",").replace(/_/g, " "), logo: location },
   ];
 
   const handleLike = async (id: number) => {
@@ -77,13 +79,11 @@ function JobDescription({
       <div
         className={`flex items-end w-full  flex-shrink-0 bg-cover fixed h-[200px]`}
         style={{
-          backgroundImage: `url(http://localhost:3333/uploads/${jobData.image_font})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
           transform: `translate(0,-${y > 100 ? 100 : y}px)`,
         }}
         {...props}
       >
+        <img src={jobData.image_font}></img>
         <Image
           src={displayJob}
           className="rotate-180 absolute top-5 left-5 rounded-full w-12 h-12"
@@ -91,7 +91,7 @@ function JobDescription({
         ></Image>
         <div className="flex w-full items-center px-10 h-[100px] gap-2.5">
           <Image
-            src={`http://localhost:3333/uploads/${jobData.logo}`}
+            src={`${jobData.image_font}`}
             className="w-[50px] h-[50px] rounded-md shadow-sm bg-white border-2 border-black"
           ></Image>
           <div className="text-white text-center font-medium font-sans text-lg">
@@ -104,9 +104,23 @@ function JobDescription({
           Your compatibility with position
         </h1>
         <div className="flex flex-wrap gap-[10px] p-[25px]">
-          {preferencesData.map(({ data }: PreferencesProps, index: number) => (
-            <Details key={index} jobData={data} color="bg-[#4EA957]" />
-          ))}
+          {detailsData.map((value, index) => {
+            const dataItems = value.data.split(",");
+            return (
+              <div
+                key={`detail-${index}`}
+                className="flex gap-[12px] flex-wrap"
+              >
+                {dataItems.map((item, subIndex) => (
+                  <Details
+                    key={`detail-${index}-${subIndex}`}
+                    jobData={item.trim()}
+                    color="bg-[#4EA957]"
+                  />
+                ))}
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="px-5 w-full h-full">
@@ -121,42 +135,25 @@ function JobDescription({
               💼 Job Description :
             </h2>
             <p className="w-full text-colorText justify-start font-semibold text-base leading-normal">
-              As an IT Consultant, you will work closely with our client’s
-              leadership teams to understand their key challenges, define IT
-              strategies, win buy-in for your recommendations and collaborate
-              with BCG case team members to transform client potential into
-              performance.💼 Job Description : As an IT Consultant, you will
-              work closely with our client’s leadership teams to understand
-              their key challenges, define IT strategies, win buy-in for your
-              recommendations and collaborate with BCG case team members to
-              transform client potential into performance. 📊 Your Mission: To
-              provide evidence of capability to fulfil concrete work
-              specifications, the contractor shall address the following
-              requests as part of the response: Provide resumes of contractors
-              with skillset matching the criteria Portfolio demonstrating solid
-              UX/UI work experience 💪 Your Competence: Excellent knowledge of
-              UX methodologies and the ability to determine the appropriate
-              methodological approach based on the need and context. Good
-              understanding of constraints addressed by graphic and technical
-              profiles. Ability to present deliverables, defend and argue for
-              defined principles to various profiles (operational, field agents,
-              managers). 💥 Your Experience: A streamlined recruitment process
-              Permanent employment at Aubay, with long-term missions lasting 2-3
-              years for our major clients A community of experts for exchanging
-              and sharing knowledge through meetups, blogs, etc. Personalized
-              support for technical and functional skills development, including
-              access to certifications (provision of Udemy licenses, training
-              opportunities, etc.)
+              {jobData.job_description}
             </p>
 
             <h2 className="w-full justify-start font-semibold text-base leading-normal">
               📊 Your Mission:
             </h2>
-            <p className="w-full text-colorText justify-start font-semibold text-base leading-normal">
-              To provide evidence of capability to fulfil concrete work
-              specifications, the contractor shall address the following
-              requests as part of the response:
-            </p>
+            {jobData.mission}
+            <h2 className="w-full justify-start font-semibold text-base leading-normal">
+              📊 Your Competences:
+            </h2>
+            {jobData.competence}
+            <h2 className="w-full justify-start font-semibold text-base leading-normal">
+              📊 Description:
+            </h2>
+            {jobData.description}
+            <h2 className="w-full justify-start font-semibold text-base leading-normal">
+              📊 Your Value:
+            </h2>
+            {jobData.value}
           </div>
         </div>
       </div>

@@ -10,11 +10,6 @@ export type Industry = {
   value: string;
 };
 
-export type FieldsProps = {
-  fields: string[];
-
-}
-
 export const industryList: Industry[] = [
   {
     name: "Marketing & PR",
