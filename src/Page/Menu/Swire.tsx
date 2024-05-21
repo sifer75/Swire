@@ -18,26 +18,30 @@ function useJobs() {
 
   useEffect(() => {
     const fetchJobs = async () => {
-      return getJobs();
-    };
-    if (ref.current) {
-      fetchJobs()
-        .then((data) => {
-          setIsLoading(true);
-          for (let i = 0; i < data.length; i++) {
-            queue.add(data[i]);
+      try {
+        setIsLoading(true);
+        const data = await getJobs();
+
+        const uniqueJobs = new Set();
+        data.forEach((job: JobProps) => {
+          if (!uniqueJobs.has(job.id)) {
+            uniqueJobs.add(job.id);
+            queue.add(job);
           }
-          setIsLoading(false);
-        })
-        .catch(() => {
-          setIsError(true);
-          setIsLoading(false);
         });
-    }
-    return () => {
-      ref.current = true;
+
+        setIsLoading(false);
+      } catch (error) {
+        setIsError(true);
+        setIsLoading(false);
+      }
     };
-  }, []);
+
+    if (!ref.current) {
+      fetchJobs();
+      ref.current = true;
+    }
+  }, [queue]);
 
   return { queue, isLoading, isError };
 }
@@ -45,7 +49,6 @@ function useJobs() {
 function Swire() {
   const [isDescriptionOpen, setIsDescriptionOpen] = useState<boolean>(false);
   const { queue, isLoading, isError } = useJobs();
-
   if (isLoading) return <LoadingWithMenu />;
   if (isError) return <LoadingWithMenu />;
   if (queue.size === 0) return <LoadingWithMenu />;

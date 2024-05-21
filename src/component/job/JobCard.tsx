@@ -40,9 +40,11 @@ function JobCard({
     return <LoadingWithMenu />;
   }
 
-  console.log(jobData, "eee");
   const preferencesData: { data: string; logo: string }[] = [
-    { data: jobData.duration.toString().replace(/_/g, " "), logo: time },
+    {
+      data: (jobData.duration ?? "").toString().replace(/_/g, " "),
+      logo: time,
+    },
     { data: jobData.location, logo: location },
     {
       data: jobData.work_rhythm.join(",").replace(/_/g, " "),
@@ -103,7 +105,7 @@ function JobCard({
       }
     }
   }
-  
+
   return (
     <motion.div
       drag="x"
@@ -113,6 +115,9 @@ function JobCard({
       ref={scope}
       className="flex flex-col justify-between items-center w-full h-[720px] p-[20px] flex-shrink-0 border-2 bg-cover rounded-lg relative"
       style={{
+        position: "absolute",
+        top: "0%",
+        left: "0%",
         zIndex: layerOrder,
         transform: "translateX(0px)",
       }}
