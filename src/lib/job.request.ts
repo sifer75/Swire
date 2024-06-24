@@ -57,3 +57,17 @@ export const dislikeJob = async (id: number) => {
   }
   return response.json();
 };
+
+export const getMatchNumber = async (id: number) => {
+  const response = await fetch(`http://localhost:3333/job/${id}/number`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error(
+      "Impossible de trouver le nombre de job liké par l'utilisateur"
+    );
+  }
+  return response.json();
+};

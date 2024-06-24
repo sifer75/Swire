@@ -5,10 +5,10 @@ import HeaderCreation from "../../component/layout/Header/HeaderCreation";
 import Cv from "../../assets/logoCreationAccount/cv.svg";
 import Background from "../../assets/background/background3.svg";
 import Work from "../../assets/logoCreationAccount/work.svg";
-import Swire from "../../assets/menu/SwireLogo.svg";
+// import Swire from "../../assets/menu/SwireLogo.svg";
 import { Input } from "../../component/custom/Input";
 import ButtonArrow from "../../component/button/ButtonArrow";
-import Image from "../../component/custom/Image";
+// import Image from "../../component/custom/Image";
 import LoadingWithoutMenu from "../Loading/LoadingWithoutMenu";
 
 interface FormDataProps {
@@ -22,6 +22,7 @@ function User() {
     name: "",
     age: "",
   });
+  const [image, setImage] = useState<File | undefined>();
   const [visible, setVisible] = useState<boolean>(true);
 
   const handleChange = (
@@ -41,8 +42,12 @@ function User() {
     queryFn: getUser,
   });
   const mutation = useMutation({
-    mutationFn: (data: { name: string; age: string; visible: boolean }) =>
-      updateUser(data),
+    mutationFn: (data: {
+      name: string;
+      age: string;
+      visible: boolean;
+      image: File | undefined;
+    }) => updateUser(data),
     onError: (error) => {
       console.log(error);
     },
@@ -55,8 +60,16 @@ function User() {
     },
   });
 
+  const handleUploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      setImage(file);
+    }
+  };
+
   if (isPending) {
-    return <LoadingWithoutMenu/>;
+    return <LoadingWithoutMenu />;
   }
   if (isError) {
     return <p>Error</p>;
@@ -78,11 +91,17 @@ function User() {
         <div className="w-full flex-grow flex flex-col justify-evenly">
           <div className="flex flex-col gap-3 text-grayfab font-medium">
             Profile photo
-            <Image
+            {/* <Image
               src={Swire}
               className="aspect-square w-1/4 shadow-md rounded-lg flex flex-col justify-center items-center"
               alt="image user"
-            ></Image>
+            ></Image> */}
+            <input
+              // className="aspect-square w-1/4 shadow-md rounded-lg flex flex-col justify-center items-center"
+              type="file"
+              accept="image/jpeg, image/png"
+              onChange={(e) => handleUploadImage(e)}
+            ></input>
           </div>
           <React.Fragment>
             <h1 className="flex text-center w-11/12 text-xl font-medium text-LightGray outline-none tracking-[0.5px]">
@@ -147,6 +166,7 @@ function User() {
                 name: formData.name,
                 age: formData.age,
                 visible: visible,
+                image: image,
               });
             }}
             selection={"/creation/fields"}

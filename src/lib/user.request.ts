@@ -27,16 +27,33 @@ export const createUser = async (data: { email: string; password: string }) => {
   return response.json();
 };
 
+const convertToBase64 = (File: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      resolve(reader.result as string);
+    };
+    reader.onerror = () => {
+      reject(new Error("Erreur lors de la lecture du ficher"));
+    };
+    reader.readAsDataURL(File);
+  });
+};
+
 export const updateUser = async (data: {
   name: string;
   age: string;
   visible: boolean;
+  image: File | undefined;
 }) => {
+  if (!data.image) return;
+  const imageFontBase64 = await convertToBase64(data.image);
+  const requestData = { ...data, image: imageFontBase64 };
   const response = await fetch("http://localhost:3333/user/update", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: JSON.stringify(data),
+    body: JSON.stringify(requestData),
   });
   if (!response.ok) {
     throw new Error("Erreur lors de la création du user");

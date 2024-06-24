@@ -183,10 +183,10 @@ function JobCard({
           </div>
         </div>
         <div className="w-full h-[60px] flex justify-evenly gap-[10px] mt-[10px]">
-          <button onClick={() => handleLike(jobData.id)}>
+          <button onClick={() => handleDislike(jobData.id)}>
             <Image src={dislike} alt="dislike" className="h-[60px] w-[60px]" />
           </button>
-          <button onClick={() => handleDislike(jobData.id)}>
+          <button onClick={() => handleLike(jobData.id)}>
             <Image src={like} alt="like" className="h-[60px] w-[60px]" />
           </button>
         </div>

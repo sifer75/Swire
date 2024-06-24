@@ -83,16 +83,19 @@ function JobDescription({
         }}
         {...props}
       >
-        <img src={jobData.image_font}></img>
+        <img
+          src={jobData.image_font}
+          style={{ backgroundImage: "cover" }}
+        ></img>
         <Image
           src={displayJob}
           className="rotate-180 absolute top-5 left-5 rounded-full w-12 h-12"
           onClick={() => togglePage()}
         ></Image>
-        <div className="flex w-full items-center px-10 h-[100px] gap-2.5">
+        <div className="flex w-full z-10 items-center px-10 h-[100px] gap-2.5">
           <Image
             src={`${jobData.image_font}`}
-            className="w-[50px] h-[50px] rounded-md shadow-sm bg-white border-2 border-black"
+            className="w-[50px] h-[50px]  rounded-md shadow-sm bg-white border-2 border-black"
           ></Image>
           <div className="text-white text-center font-medium font-sans text-lg">
             {jobData.name}
