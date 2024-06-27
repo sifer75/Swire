@@ -9,6 +9,8 @@ import { useQueue } from "@uidotdev/usehooks";
 import { useRef } from "react";
 import JobDescription from "../../component/job/JobDescription";
 import LoadingWithMenu from "../Loading/LoadingWithMenu";
+import { useQuery } from "@tanstack/react-query";
+import { getUser } from "../../lib/user.request";
 
 function useJobs() {
   const queue = useQueue<JobProps>([]);
@@ -16,46 +18,51 @@ function useJobs() {
   const [isError, setIsError] = useState(false);
   const ref = useRef(false);
 
+  const { data: userData } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
+  });
   useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getJobs();
+    if (userData && !ref.current) {
+      const fetchJobs = async () => {
+        try {
+          setIsLoading(true);
+          const data = await getJobs();
+          console.log(data, "user");
+          const uniqueJobs = new Set();
+          data.forEach((job: JobProps) => {
+            if (!uniqueJobs.has(job.id)) {
+              uniqueJobs.add(job.id);
+              queue.add(job);
+            }
+          });
 
-        const uniqueJobs = new Set();
-        data.forEach((job: JobProps) => {
-          if (!uniqueJobs.has(job.id)) {
-            uniqueJobs.add(job.id);
-            queue.add(job);
-          }
-        });
+          setIsLoading(false);
+        } catch (error) {
+          setIsError(true);
+          setIsLoading(false);
+        }
+      };
 
-        setIsLoading(false);
-      } catch (error) {
-        setIsError(true);
-        setIsLoading(false);
-      }
-    };
-
-    if (!ref.current) {
       fetchJobs();
       ref.current = true;
     }
-  }, [queue]);
-
+  }, [queue, userData]);
   return { queue, isLoading, isError };
 }
 
 function Swire() {
   const [isDescriptionOpen, setIsDescriptionOpen] = useState<boolean>(false);
   const { queue, isLoading, isError } = useJobs();
-  if (isLoading) return <LoadingWithMenu />;
-  if (isError) return <LoadingWithMenu />;
-  if (queue.size === 0) return <LoadingWithMenu />;
+
+  if (isLoading || isError || queue.size === 0) {
+    return <LoadingWithMenu />;
+  }
 
   const toggleDescription = () => {
     setIsDescriptionOpen(!isDescriptionOpen);
   };
+
   return (
     <div className="h-screen w-screen flex flex-col">
       <div
@@ -74,17 +81,15 @@ function Swire() {
           <>
             <Header />
             <div className="relative w-full h-full">
-              {queue.queue.map((elem, index) => {
-                return (
-                  <JobCard
-                    layerOrder={queue.size - index}
-                    key={`jobData-${elem.id}`}
-                    jobData={elem as JobProps}
-                    togglePage={toggleDescription}
-                    remove={queue.remove}
-                  />
-                );
-              })}
+              {queue.queue.map((elem: JobProps, index: number) => (
+                <JobCard
+                  layerOrder={queue.size - index}
+                  key={`jobData-${elem.id}`}
+                  jobData={elem as JobProps}
+                  togglePage={toggleDescription}
+                  remove={queue.remove}
+                />
+              ))}
             </div>
           </>
         )}

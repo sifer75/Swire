@@ -12,6 +12,7 @@ export type User = {
   email: string;
   age: string;
   image: string;
+  id: number;
 };
 
 export const createUser = async (data: { email: string; password: string }) => {
@@ -26,6 +27,8 @@ export const createUser = async (data: { email: string; password: string }) => {
   }
   return response.json();
 };
+
+// faire un formDATA pour image et pdf
 
 const convertToBase64 = (File: File): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -45,10 +48,12 @@ export const updateUser = async (data: {
   age: string;
   visible: boolean;
   image: File | undefined;
+  cv: File | undefined;
 }) => {
-  if (!data.image) return;
+  if (!data.image || !data.cv) return;
   const imageFontBase64 = await convertToBase64(data.image);
-  const requestData = { ...data, image: imageFontBase64 };
+  const cvFontBase64 = await convertToBase64(data.cv);
+  const requestData = { ...data, image: imageFontBase64, cv: cvFontBase64 };
   const response = await fetch("http://localhost:3333/user/update", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

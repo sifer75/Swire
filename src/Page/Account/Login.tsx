@@ -32,7 +32,7 @@ function Login() {
     mutationFn: (data: { email: string; password: string }) => login(data),
 
     onError: (error) => {
-      console.log("Connection échouée oula", error);
+      console.log("Connection échouée", error);
     },
     onSuccess: () => {
       console.log("Connection réussie");

@@ -23,6 +23,7 @@ function User() {
     age: "",
   });
   const [image, setImage] = useState<File | undefined>();
+  const [cvFile, setCvFile] = useState<File | undefined>();
   const [visible, setVisible] = useState<boolean>(true);
 
   const handleChange = (
@@ -41,12 +42,14 @@ function User() {
     queryKey: ["user"],
     queryFn: getUser,
   });
+
   const mutation = useMutation({
     mutationFn: (data: {
       name: string;
       age: string;
       visible: boolean;
       image: File | undefined;
+      cv: File | undefined;
     }) => updateUser(data),
     onError: (error) => {
       console.log(error);
@@ -64,7 +67,23 @@ function User() {
     const files = event.target.files;
     if (files && files.length > 0) {
       const file = files[0];
-      setImage(file);
+      if (file.type.startsWith("image/")) {
+        setImage(file);
+      } else {
+        alert("Veuillez télécharger un fichier jpeg ou pnj.");
+      }
+    }
+  };
+
+  const handleUploadCv = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (file.type === "application/pdf" || file.type.startsWith("image/")) {
+        setCvFile(file);
+      } else {
+        alert("Veuillez télécharger un fichier PDF ou une image.");
+      }
     }
   };
 
@@ -101,6 +120,13 @@ function User() {
               type="file"
               accept="image/jpeg, image/png"
               onChange={(e) => handleUploadImage(e)}
+            ></input>
+            CV
+            <input
+              // className="aspect-square w-1/4 shadow-md rounded-lg flex flex-col justify-center items-center"
+              type="file"
+              accept="image/pdf"
+              onChange={(e) => handleUploadCv(e)}
             ></input>
           </div>
           <React.Fragment>
@@ -152,7 +178,7 @@ function User() {
         <div className="flex w-full justify-between items-center pt-[20px]">
           <ButtonArrow
             background={"bg-gradient-to-l from-pink to-purple rotate-180"}
-            selection={"/creation/fields"}
+            selection={"/createAccount"}
           ></ButtonArrow>
           <ButtonArrow
             disabled={formData.name === "" || formData.age === ""}
@@ -167,6 +193,7 @@ function User() {
                 age: formData.age,
                 visible: visible,
                 image: image,
+                cv: cvFile,
               });
             }}
             selection={"/creation/fields"}
